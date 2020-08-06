@@ -1,0 +1,500 @@
+basePath: /api
+definitions:
+  dtos.CategoriesResponseDto:
+    items:
+      properties:
+        created_at:
+          type: string
+        id:
+          type: integer
+        image_url:
+          type: string
+        sort:
+          type: integer
+        title:
+          type: string
+        updated_at:
+          type: string
+      type: object
+    type: array
+  dtos.CategoryRequestDto:
+    properties:
+      image_url:
+        type: string
+      sort:
+        type: integer
+      title:
+        type: string
+    type: object
+  dtos.CategoryResponseDto:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      image_url:
+        type: string
+      sort:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  dtos.CreateCategoryResponseDto:
+    properties:
+      id:
+        type: integer
+    type: object
+  dtos.CreateProductResponseDto:
+    properties:
+      id:
+        type: integer
+    type: object
+  dtos.ProductRequestDto:
+    properties:
+      category_id:
+        type: integer
+      description:
+        type: string
+      image_url:
+        type: string
+      price:
+        type: integer
+      title:
+        type: string
+    type: object
+  dtos.ProductResponseDto:
+    properties:
+      category_id:
+        type: integer
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      image_url:
+        type: string
+      price:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  dtos.ProductsCategoryUpdateRequestDto:
+    properties:
+      product_ids:
+        items:
+          type: integer
+        type: array
+    type: object
+  dtos.ProductsResponseDto:
+    items:
+      properties:
+        category_id:
+          type: integer
+        created_at:
+          type: string
+        description:
+          type: string
+        id:
+          type: integer
+        image_url:
+          type: string
+        price:
+          type: integer
+        title:
+          type: string
+        updated_at:
+          type: string
+      type: object
+    type: array
+  dtos.ServeError:
+    properties:
+      code:
+        type: string
+      http_status:
+        type: string
+      http_status_code:
+        type: integer
+      message:
+        type: string
+      timestamp:
+        type: string
+      trace_id:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: mzampetakis@gmail.com
+    name: Michalis Zampetakis
+  description: This is the service that provides the API for prods-api.
+  license: {}
+  title: API for prods-api
+  version: "1.0"
+paths:
+  /categories:
+    get:
+      description: Retrieve a list of Categories
+      parameters:
+      - description: Offset of the results
+        in: query
+        name: offset
+        type: integer
+      - description: Limit the results
+        in: query
+        name: limit
+        type: integer
+      - description: Sort by of the results
+        in: query
+        name: sortby
+        type: string
+      - description: Sort direction of the results (ASC|DESC)
+        in: query
+        name: sortdirection
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.CategoriesResponseDto'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+      summary: Retrives Categories - uses filtering
+      tags:
+      - Categories
+    post:
+      description: Create a new Category
+      parameters:
+      - description: Category's data to create
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CategoryRequestDto'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.CreateCategoryResponseDto'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+      summary: Creates a Category
+      tags:
+      - Categories
+  /categories/{category_id}:
+    delete:
+      description: Deletes a Category
+      parameters:
+      - description: Category ID to delete
+        in: path
+        name: category_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204": {}
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+      summary: Deletes a Category
+      tags:
+      - Categories
+    get:
+      description: Retrieves a Category
+      parameters:
+      - description: Category ID to retrieve
+        in: path
+        name: category_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.CategoryResponseDto'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+      summary: Retrives single Category
+      tags:
+      - Categories
+    put:
+      description: Updates a Category
+      parameters:
+      - description: Category ID to update
+        in: path
+        name: category_id
+        required: true
+        type: integer
+      - description: Category's data to update
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CategoryRequestDto'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "204": {}
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+      summary: Updates a Category
+      tags:
+      - Categories
+  /products:
+    get:
+      description: Retrieve a list of products
+      parameters:
+      - description: Offset of the results
+        in: query
+        name: offset
+        type: integer
+      - description: Limit the results
+        in: query
+        name: limit
+        type: integer
+      - description: Sort by of the results
+        in: query
+        name: sortby
+        type: string
+      - description: Sort direction of the results (ASC|DESC)
+        in: query
+        name: sortdirection
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.ProductsResponseDto'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+      summary: Retrive Products - uses filtering
+      tags:
+      - Products
+    post:
+      description: Create a new Product
+      parameters:
+      - description: Product's data to create
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.ProductRequestDto'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.CreateProductResponseDto'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+      summary: Creates a Product
+      tags:
+      - Products
+  /products/{product_id}:
+    delete:
+      description: Deletes a Product
+      parameters:
+      - description: Product ID to delete
+        in: path
+        name: product_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204": {}
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+      summary: Deletes a Product
+      tags:
+      - Products
+    get:
+      description: Retrieve a Product
+      parameters:
+      - description: Product ID to retrieve
+        in: path
+        name: product_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.ProductResponseDto'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+      summary: Retrives single Product
+      tags:
+      - Products
+    put:
+      description: Update a Product
+      parameters:
+      - description: Product ID to update
+        in: path
+        name: product_id
+        required: true
+        type: integer
+      - description: Product's data to update
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.ProductRequestDto'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "204": {}
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+      summary: Updates a Product
+      tags:
+      - Products
+  /products/category/{category_id}:
+    put:
+      description: Assing Products to a category
+      parameters:
+      - description: Category ID to assign products to
+        in: path
+        name: category_id
+        required: true
+        type: integer
+      - description: Products' ID to assign to the category
+        in: body
+        name: products_category
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.ProductsCategoryUpdateRequestDto'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "204": {}
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.ServeError'
+            type: object
+      summary: Assing Products to a category
+      tags:
+      - Products
+swagger: "2.0"
