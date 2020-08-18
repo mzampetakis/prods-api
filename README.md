@@ -96,7 +96,7 @@ Category:
 ```
 (*) Mandatory fields for POST/PUT
 
-Products' price is manipulated a price in CENTS of the currency from the DB up to the API.
+Products' price is manipulated as price in CENTS of the currency from the DB up to the API.
 
 # Tests
 in order to run the available Unit Tests run:
