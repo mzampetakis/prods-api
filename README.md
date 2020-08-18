@@ -116,11 +116,6 @@ In any change of the API contract please update the OpenAPI docs by running this
 swag init -g main.go --output docs
 ```
 
-# Time frame limitation
-Due to the specific time frame of the development of this app, the following could be improved
-* Add more unit testings to cover all cases of the service layer
-* Add more unit testings to cover all cases of the DTOs
-
 # Future Improvements
 * Add integration tests at the repository layer towards a test DB. Integration test are crucial at this level as logic is enforced through the DB and also querying of data is only being done through the DB.
 * Add integration tests at the controller layer. Integration test are crucial at this level as we can test among the API contract that our end-users use.
